@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { Home, Search, Play, Users, LayoutGrid } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -15,13 +16,12 @@ const tabs = [
 
 export function MobileTabBar() {
   const pathname = usePathname();
-  // Hide on the immersive reels experience
   if (pathname.startsWith("/reels")) return null;
 
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-ink-900/8 bg-white/90 backdrop-blur-xl lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-ink-900/8 bg-white/85 backdrop-blur-xl lg:hidden"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
       <ul className="mx-auto flex max-w-md items-stretch justify-around px-1">
@@ -33,19 +33,27 @@ export function MobileTabBar() {
               <Link
                 href={t.href}
                 aria-current={active ? "page" : undefined}
-                className="flex flex-col items-center gap-0.5 py-2"
+                className="group flex flex-col items-center gap-0.5 py-1.5 active:scale-95 transition-transform"
               >
-                <span
-                  className={cn(
-                    "flex h-8 w-12 items-center justify-center rounded-full transition-colors",
-                    active ? "bg-lime-300/25 text-lime-700" : "text-fg-muted",
+                <span className="relative flex h-8 w-12 items-center justify-center">
+                  {active && (
+                    <motion.span
+                      layoutId="tab-pill"
+                      transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                      className="absolute inset-0 rounded-full bg-lime-300/30"
+                    />
                   )}
-                >
-                  <Icon className={cn("h-5 w-5", active && "scale-110")} strokeWidth={active ? 2.4 : 2} />
+                  <Icon
+                    className={cn(
+                      "relative h-[22px] w-[22px] transition-colors",
+                      active ? "text-lime-700" : "text-fg-muted group-active:text-fg",
+                    )}
+                    strokeWidth={active ? 2.5 : 2}
+                  />
                 </span>
                 <span
                   className={cn(
-                    "text-[10px] font-semibold",
+                    "text-[10px] font-semibold transition-colors",
                     active ? "text-fg" : "text-fg-muted",
                   )}
                 >

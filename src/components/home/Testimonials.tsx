@@ -44,7 +44,7 @@ const testimonials = [
 
 function Card({ t }: { t: (typeof testimonials)[number] }) {
   return (
-    <figure className="mx-3 flex w-[22rem] shrink-0 flex-col rounded-3xl border border-ink-900/8 bg-white p-6">
+    <figure className="mx-2.5 flex w-[82vw] max-w-[22rem] shrink-0 snap-center flex-col rounded-3xl border border-ink-900/8 bg-white p-6 sm:mx-3 sm:w-[22rem]">
       <Quote className="h-7 w-7 text-lime-400" />
       <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-fg">
         “{t.text}”
@@ -80,13 +80,17 @@ export function Testimonials() {
         </div>
       </Container>
 
-      <div className="group relative mt-12 flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-        <div className="flex animate-marquee group-hover:[animation-play-state:paused]">
+      {/* Mobile: swipeable snap slider · Desktop: seamless auto-marquee */}
+      <div className="group relative mt-10 flex snap-x snap-mandatory overflow-x-auto scroll-px-4 px-2 no-scrollbar sm:mt-12 sm:overflow-hidden sm:px-0 sm:[mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+        <div className="flex sm:animate-marquee sm:group-hover:[animation-play-state:paused]">
           {row.map((t, i) => (
             <Card key={i} t={t} />
           ))}
         </div>
       </div>
+      <p className="mt-4 text-center text-xs text-fg-muted sm:hidden">
+        ← swipe to read more →
+      </p>
     </section>
   );
 }
