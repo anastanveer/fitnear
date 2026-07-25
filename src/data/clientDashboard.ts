@@ -17,12 +17,12 @@ export interface ClientProfile {
 }
 
 export const clientProfile: ClientProfile = {
-  name: "Aisha Al Maktoum",
-  firstName: "Aisha",
-  email: "aisha.almaktoum@gmail.com",
+  name: "Anas Tanveer",
+  firstName: "Anas",
+  email: "demo@gmail.com",
   phone: "+971 50 214 8890",
   area: "Dubai Marina",
-  avatar: "https://i.pravatar.cc/160?img=32",
+  avatar: "https://i.pravatar.cc/160?img=68",
   memberSince: "March 2025",
 };
 
