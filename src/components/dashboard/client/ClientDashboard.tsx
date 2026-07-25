@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Bell, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
+import { NotificationsBell } from "@/components/dashboard/shared/NotificationsBell";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
 import { ClientAvatar } from "@/components/dashboard/shared/client-ui";
@@ -147,14 +148,7 @@ export function ClientDashboard() {
                   </p>
                 </div>
               </div>
-              <button
-                type="button"
-                aria-label="Notifications"
-                className="relative flex h-10 w-10 items-center justify-center rounded-full border border-ink-900/10 bg-white text-fg-muted"
-              >
-                <Bell className="h-5 w-5" />
-                <span className="absolute right-2.5 top-2.5 h-2 w-2 rounded-full bg-lime-400" />
-              </button>
+              <NotificationsBell />
             </div>
 
             {/* Mobile horizontal tab bar */}
