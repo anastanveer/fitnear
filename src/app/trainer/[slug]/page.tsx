@@ -12,7 +12,10 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Heart, MessageCircle } from "lucide-react";
+import * as Icons from "lucide-react";
 import { trainerBySlug, trainers, similarTrainers } from "@/data/trainers";
+import { safetyGuarantees } from "@/lib/trust";
+import { TrustBadges, TrustMeter } from "@/components/trainer/TrustBadges";
 import { seedPosts } from "@/data/posts";
 import type { TrainingFormat } from "@/lib/types";
 import { Container, Eyebrow } from "@/components/ui/Container";
@@ -125,6 +128,40 @@ export default async function TrainerProfilePage({
               <p className="whitespace-pre-line leading-relaxed text-fg">
                 {trainer.bio}
               </p>
+            </Section>
+
+            <Section title="Verified &amp; safe">
+              <p className="mb-4 -mt-2 text-sm text-fg-muted">
+                Every FitNear trainer passes our checks before going live.{" "}
+                <Link href="/trust" className="font-semibold text-lime-600 hover:underline">
+                  How we verify &amp; keep you safe →
+                </Link>
+              </p>
+              <div className="grid gap-4 sm:grid-cols-[1fr_16rem]">
+                <TrustBadges trainer={trainer} />
+                <TrustMeter trainer={trainer} />
+              </div>
+              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                {safetyGuarantees.slice(0, 2).map((g) => {
+                  const Icon =
+                    (Icons[g.icon as keyof typeof Icons] as Icons.LucideIcon) ??
+                    Icons.ShieldCheck;
+                  return (
+                    <div
+                      key={g.title}
+                      className="flex items-start gap-3 rounded-2xl border border-ink-900/8 bg-white p-4"
+                    >
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-lime-300/20 text-lime-600">
+                        <Icon className="h-4.5 w-4.5" />
+                      </span>
+                      <div>
+                        <p className="text-sm font-semibold">{g.title}</p>
+                        <p className="mt-0.5 text-xs text-fg-muted">{g.text}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </Section>
 
             <Section title="Specializations">

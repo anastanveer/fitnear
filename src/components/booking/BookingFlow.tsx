@@ -335,6 +335,17 @@ export function BookingFlow({
                       your session. Cancel within 24 hours and a 50% fee applies.
                     </span>
                   </div>
+                  <div className="mt-2 grid grid-cols-3 gap-2 text-center text-[11px] font-medium text-fg-muted">
+                    <span className="flex flex-col items-center gap-1 rounded-xl border border-ink-900/8 py-2">
+                      <Lock className="h-3.5 w-3.5 text-lime-600" /> Secure payment
+                    </span>
+                    <span className="flex flex-col items-center gap-1 rounded-xl border border-ink-900/8 py-2">
+                      <ShieldCheck className="h-3.5 w-3.5 text-lime-600" /> Verified trainer
+                    </span>
+                    <span className="flex flex-col items-center gap-1 rounded-xl border border-ink-900/8 py-2">
+                      <Info className="h-3.5 w-3.5 text-lime-600" /> 1st-session guarantee
+                    </span>
+                  </div>
                 </StepShell>
               )}
 

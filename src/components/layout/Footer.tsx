@@ -28,9 +28,9 @@ const columns = [
     title: "Company",
     links: [
       { href: "/#how-it-works", label: "How it works" },
+      { href: "/trust", label: "Trust & Safety" },
       { href: "/#business", label: "Business model" },
       { href: "/community", label: "Community feed" },
-      { href: "/#reviews", label: "Reviews" },
     ],
   },
 ];

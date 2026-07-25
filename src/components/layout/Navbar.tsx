@@ -71,7 +71,7 @@ export function Navbar() {
   // dark pixels there, so its contents need light styling until it scrolls
   // into the white pill. On light-topped pages (search, dashboards, etc.) the
   // default dark-on-light styling is correct.
-  const darkHeroPages = ["/", "/community", "/promote"];
+  const darkHeroPages = ["/", "/community", "/promote", "/trust"];
   const darkNav = darkHeroPages.includes(pathname) && !scrolled;
 
   // Reels is a fully immersive TikTok-style experience — no site chrome.
