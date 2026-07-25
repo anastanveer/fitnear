@@ -1,26 +1,352 @@
 @import "tailwindcss";
 
+/* ============================================================
+   FitNear — Design System
+   Luxury sports-tech: Electric Lime + Charcoal
+   ============================================================ */
+
+@theme {
+  /* --- Brand: Electric Lime --- */
+  --color-lime-50: #f7ffe0;
+  --color-lime-100: #ecffb8;
+  --color-lime-200: #ddff85;
+  --color-lime-300: #ccfa3c;
+  --color-lime-400: #c2f22a;
+  --color-lime-500: #a9dd12;
+  --color-lime-600: #85b30a;
+  --color-lime-700: #63850c;
+
+  /* --- Ink: Charcoal base --- */
+  --color-ink-950: #070907;
+  --color-ink-900: #0b0d0b;
+  --color-ink-850: #101311;
+  --color-ink-800: #141815;
+  --color-ink-700: #1c211d;
+  --color-ink-600: #262c28;
+  --color-ink-500: #38413b;
+
+  /* --- Light surfaces --- */
+  --color-cloud: #f6f8f4;
+  --color-mist: #ecefe8;
+  --color-line: #e2e6dc;
+
+  /* --- Neutrals for text --- */
+  --color-fg: #0b0d0b;
+  --color-fg-muted: #5b635c;
+  --color-fg-invert: #f4f6f1;
+  --color-fg-invert-muted: #97a099;
+
+  /* --- Fonts --- */
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Radii --- */
+  --radius-xl2: 1.25rem;
+  --radius-xl3: 1.75rem;
+
+  /* --- Easing --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+/* ---------- Base ---------- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f6f8f4;
+  --foreground: #0b0d0b;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  border-color: var(--color-line);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  /* Prevent stray decorative blobs from causing horizontal page scroll.
+     `clip` (not `hidden`) does not create a scroll container, so
+     position: sticky keeps working. Inner overflow-auto areas still scroll. */
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-lime-300);
+  color: var(--color-ink-900);
+}
+
+/* ---------- Typography helpers ---------- */
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Fluid display sizes */
+.display-1 {
+  font-size: clamp(2.75rem, 6vw + 0.5rem, 5.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+}
+.display-2 {
+  font-size: clamp(2rem, 4vw + 0.5rem, 3.75rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+.display-3 {
+  font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- Glassmorphism ---------- */
+.glass {
+  background: color-mix(in srgb, #ffffff 10%, transparent);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid color-mix(in srgb, #ffffff 14%, transparent);
+}
+.glass-light {
+  background: color-mix(in srgb, #ffffff 65%, transparent);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  border: 1px solid color-mix(in srgb, #ffffff 60%, transparent);
+}
+
+/* ---------- Utility surfaces ---------- */
+.surface-dark {
+  background: var(--color-ink-900);
+  color: var(--color-fg-invert);
+}
+.grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Radial glow */
+.glow-lime {
+  background: radial-gradient(
+    60% 60% at 50% 40%,
+    color-mix(in srgb, var(--color-lime-300) 45%, transparent) 0%,
+    transparent 70%
+  );
+}
+
+/* ---------- Scrollbar ---------- */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---------- Animations ---------- */
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.animate-float { animation: float-y 6s var(--ease-in-out-quart) infinite; }
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.85); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.animate-ping-slow { animation: pulse-ring 2.6s var(--ease-out-expo) infinite; }
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-fg-muted) 14%, transparent);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, #ffffff 22%, transparent),
+    transparent
+  );
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 32s linear infinite; }
+
+/* ---------- Leaflet real-map theming ---------- */
+.leaflet-container {
+  background: #0a0c0a;
+  font-family: var(--font-sans);
+}
+.leaflet-control-attribution {
+  background: rgba(10, 12, 10, 0.6) !important;
+  color: rgba(255, 255, 255, 0.4) !important;
+  backdrop-filter: blur(4px);
+  font-size: 10px !important;
+}
+.leaflet-control-attribution a {
+  color: rgba(194, 242, 42, 0.6) !important;
+}
+.leaflet-bar a {
+  background: rgba(20, 24, 21, 0.9) !important;
+  color: #fff !important;
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.leaflet-bar a:hover {
+  background: rgba(28, 33, 29, 0.95) !important;
+}
+
+/* Avatar marker pins (injected as raw HTML by Leaflet divIcon) */
+.fn-pin {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  overflow: visible;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45);
+  transition: transform 0.15s var(--ease-out-expo);
+  cursor: pointer;
+}
+.fn-pin img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 9999px;
+  display: block;
+}
+.fn-pin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  transform: translate(-50%, -4px) rotate(45deg);
+  border-radius: 1px;
+}
+.fn-pin.featured {
+  border-color: #c2f22a;
+}
+.fn-pin.featured::after {
+  background: #c2f22a;
+}
+.fn-pin.active {
+  border-color: #ccfa3c;
+  transform: scale(1.18);
+  z-index: 1000;
+}
+.fn-pin.active::after {
+  background: #ccfa3c;
+}
+.fn-pin .fn-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 9999px;
+  border: 2px solid rgba(204, 250, 60, 0.5);
+  animation: pulse-ring 2.4s var(--ease-out-expo) infinite;
+}
+.fn-you {
+  width: 18px;
+  height: 18px;
+  border-radius: 9999px;
+  background: #38bdf8;
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 6px rgba(56, 189, 248, 0.22);
+}
+
+/* Map radar sweep */
+@keyframes radar-sweep {
+  to { transform: rotate(360deg); }
+}
+.animate-radar { animation: radar-sweep 4.5s linear infinite; }
+
+/* Animated dashed connector on the map */
+@keyframes dash-flow {
+  to { stroke-dashoffset: -20; }
+}
+.animate-dash { animation: dash-flow 0.8s linear infinite; }
+
+/* ---------- Range slider ---------- */
+.fitnear-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-mist);
+  outline: none;
+}
+.fitnear-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 20px;
+  width: 20px;
+  border-radius: 999px;
+  background: var(--color-ink-900);
+  border: 3px solid var(--color-lime-300);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.15s ease;
+}
+.fitnear-range::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+}
+.fitnear-range::-moz-range-thumb {
+  height: 20px;
+  width: 20px;
+  border-radius: 999px;
+  background: var(--color-ink-900);
+  border: 3px solid var(--color-lime-300);
+  cursor: pointer;
+}
+
+/* ---------- Focus ---------- */
+:focus-visible {
+  outline: 2px solid var(--color-lime-400);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-float,
+  .animate-ping-slow,
+  .animate-marquee {
+    animation: none !important;
+  }
 }
