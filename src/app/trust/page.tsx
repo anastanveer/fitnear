@@ -146,11 +146,11 @@ export default function TrustPage() {
                     </div>
                   </div>
                 </div>
-                {/* floating mini badges */}
-                <div className="animate-float absolute -left-6 top-6 hidden rounded-2xl border border-white/12 bg-white/[0.06] px-3 py-2 text-xs font-semibold text-fg-invert backdrop-blur-xl sm:flex sm:items-center sm:gap-1.5" style={{ animationDelay: "1.2s" }}>
+                {/* floating mini badges — kept clear of the card content */}
+                <div className="animate-float absolute -top-6 left-6 hidden rounded-2xl border border-white/12 bg-ink-900/70 px-3 py-2 text-xs font-semibold text-fg-invert shadow-lg backdrop-blur-xl sm:flex sm:items-center sm:gap-1.5" style={{ animationDelay: "1.2s" }}>
                   <Lock className="h-3.5 w-3.5 text-lime-300" /> Secure payments
                 </div>
-                <div className="animate-float absolute -right-4 -bottom-4 hidden rounded-2xl border border-white/12 bg-white/[0.06] px-3 py-2 text-xs font-semibold text-fg-invert backdrop-blur-xl sm:flex sm:items-center sm:gap-1.5" style={{ animationDelay: "0.6s" }}>
+                <div className="animate-float absolute -bottom-6 right-6 hidden rounded-2xl border border-white/12 bg-ink-900/70 px-3 py-2 text-xs font-semibold text-fg-invert shadow-lg backdrop-blur-xl sm:flex sm:items-center sm:gap-1.5" style={{ animationDelay: "0.6s" }}>
                   <ShieldCheck className="h-3.5 w-3.5 text-lime-300" /> Insured coaches
                 </div>
               </div>
@@ -343,8 +343,19 @@ export default function TrustPage() {
             </Reveal>
           </div>
           <div className="relative mx-auto mt-14 max-w-4xl">
-            {/* connector */}
-            <div className="pointer-events-none absolute left-[16%] right-[16%] top-8 hidden h-px bg-gradient-to-r from-lime-300/50 via-lime-300/30 to-lime-300/50 sm:block" />
+            {/* connector line — runs across the icon centres */}
+            <div className="pointer-events-none absolute left-[16.66%] right-[16.66%] top-8 hidden h-0.5 -translate-y-1/2 rounded-full bg-gradient-to-r from-lime-300/40 via-lime-300/55 to-lime-300/40 sm:block" />
+            {/* arrow markers centred in the gaps, on the line */}
+            {[33.33, 66.66].map((pos) => (
+              <span
+                key={pos}
+                className="pointer-events-none absolute top-8 hidden h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-lime-300/30 bg-ink-900 text-lime-300 sm:flex"
+                style={{ left: `${pos}%` }}
+                aria-hidden
+              >
+                <ChevronRight className="h-4 w-4" strokeWidth={2.6} />
+              </span>
+            ))}
             <div className="grid gap-6 sm:grid-cols-3">
               {[
                 { icon: Wallet, title: "You pay securely", text: "Your payment is taken safely at booking." },
@@ -361,9 +372,6 @@ export default function TrustPage() {
                     </div>
                     <h3 className="font-display mt-4 text-base font-semibold">{s.title}</h3>
                     <p className="mt-1.5 text-sm text-fg-invert-muted">{s.text}</p>
-                    {i < 2 && (
-                      <ChevronRight className="absolute -right-3 top-4 hidden h-6 w-6 text-lime-300/60 sm:block" />
-                    )}
                   </div>
                 </Reveal>
               ))}
