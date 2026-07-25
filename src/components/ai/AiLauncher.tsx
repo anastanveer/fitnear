@@ -18,7 +18,7 @@ export function AiLauncher() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 12 }}
           transition={{ type: "spring", stiffness: 300, damping: 22 }}
-          className="fixed bottom-5 right-5 z-40 sm:bottom-6 sm:right-6"
+          className="fixed bottom-[4.75rem] right-4 z-40 lg:bottom-6 lg:right-6"
         >
           <Link
             href="/ai-coach"

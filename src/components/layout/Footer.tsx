@@ -37,7 +37,7 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="surface-dark grain relative overflow-hidden">
+    <footer className="surface-dark grain relative overflow-hidden pb-[calc(4.5rem+env(safe-area-inset-bottom))] lg:pb-0">
       <div className="pointer-events-none absolute -top-40 left-1/2 h-96 w-[60rem] -translate-x-1/2 glow-lime opacity-30" />
       <Container className="relative py-16">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">

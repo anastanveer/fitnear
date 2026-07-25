@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
@@ -7,6 +7,7 @@ import { FooterGate } from "@/components/layout/FooterGate";
 import { ToastProvider } from "@/components/ui/Toast";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { AiLauncher } from "@/components/ai/AiLauncher";
+import { MobileTabBar } from "@/components/layout/MobileTabBar";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,13 +37,38 @@ export const metadata: Metadata = {
     "yoga trainer",
     "trainer marketplace",
   ],
-  metadataBase: new URL("https://fitnear.example"),
+  metadataBase: new URL("https://nova.arsdeveloper.com"),
+  manifest: "/manifest.webmanifest",
+  applicationName: "FitNear",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "FitNear",
+  },
+  icons: {
+    icon: [
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180" }],
+  },
   openGraph: {
     title: "FitNear — Find the right trainer, closer to you.",
     description:
       "A location-based marketplace for verified fitness trainers across the UAE.",
     type: "website",
+    images: ["/icon-512.png"],
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f6f8f4" },
+    { media: "(prefers-color-scheme: dark)", color: "#0b0d0b" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -84,6 +110,7 @@ export default function RootLayout({
             <Footer />
           </FooterGate>
           <AiLauncher />
+          <MobileTabBar />
         </ToastProvider>
       </body>
     </html>
