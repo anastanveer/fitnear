@@ -30,6 +30,7 @@ const columns = [
       { href: "/trust", label: "Trust & Safety" },
       { href: "/#business", label: "Business model" },
       { href: "/#reviews", label: "Reviews" },
+      { href: "/dashboard/admin", label: "Admin control room" },
     ],
   },
 ];

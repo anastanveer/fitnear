@@ -37,6 +37,21 @@ const formatMeta: Record<
   online: { label: "Online", icon: Wifi, desc: "Live video coaching" },
 };
 
+/**
+ * A client can book a single session or commit to a weekly / monthly plan.
+ * Plans bundle several sessions at a per-session discount — this is the
+ * "book per week or per month, not only per day" flow the client asked for.
+ */
+type PlanKey = "single" | "weekly" | "monthly";
+const plans: Record<
+  PlanKey,
+  { label: string; sessions: number; discount: number; note: string }
+> = {
+  single: { label: "Single session", sessions: 1, discount: 0, note: "One 1-hour session" },
+  weekly: { label: "Weekly plan", sessions: 3, discount: 0.08, note: "3 sessions every week" },
+  monthly: { label: "Monthly plan", sessions: 12, discount: 0.15, note: "12 sessions every month" },
+};
+
 const steps = ["Session", "Date & time", "Location", "Review", "Payment"] as const;
 
 export function BookingFlow({
@@ -55,6 +70,7 @@ export function BookingFlow({
   const [date, setDate] = useState<string | null>(null);
   const [time, setTime] = useState<string | null>(null);
   const [location, setLocation] = useState("");
+  const [plan, setPlan] = useState<PlanKey>("single");
   const [confirmed, setConfirmed] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -78,7 +94,14 @@ export function BookingFlow({
     return out;
   }, [mounted]);
 
-  const { fee, commission, trainerPayout } = feeBreakdown(trainer.hourlyRate);
+  // Plan total = hourly rate × bundled sessions, minus the plan discount.
+  const activePlan = plans[plan];
+  const planTotal = Math.round(
+    trainer.hourlyRate * activePlan.sessions * (1 - activePlan.discount),
+  );
+  const planSaving =
+    Math.round(trainer.hourlyRate * activePlan.sessions) - planTotal;
+  const { fee, commission, trainerPayout } = feeBreakdown(planTotal);
 
   const needsAddress = format === "home" || format === "outdoor";
   const locationValid =
@@ -104,7 +127,7 @@ export function BookingFlow({
   };
 
   if (confirmed) {
-    return <Confirmation trainer={trainer} refId={bookingRef} date={date} time={time} format={format} total={fee} />;
+    return <Confirmation trainer={trainer} refId={bookingRef} date={date} time={time} format={format} total={fee} planLabel={activePlan.label} />;
   }
 
   const FormatIcon = formatMeta[format].icon;
@@ -204,6 +227,47 @@ export function BookingFlow({
                       );
                     })}
                   </div>
+
+                  <div className="mt-8">
+                    <p className="text-sm font-semibold text-fg">How often?</p>
+                    <p className="mt-1 text-sm text-fg-muted">
+                      Book a one-off session or save with a weekly or monthly plan.
+                    </p>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                      {(Object.keys(plans) as PlanKey[]).map((key) => {
+                        const p = plans[key];
+                        const active = plan === key;
+                        const total = Math.round(
+                          trainer.hourlyRate * p.sessions * (1 - p.discount),
+                        );
+                        return (
+                          <button
+                            key={key}
+                            onClick={() => setPlan(key)}
+                            className={cn(
+                              "relative rounded-2xl border p-4 text-left transition-all",
+                              active
+                                ? "border-lime-400 bg-lime-300/15 ring-1 ring-lime-400"
+                                : "border-ink-900/10 hover:border-ink-900/25",
+                            )}
+                          >
+                            {p.discount > 0 && (
+                              <span className="absolute right-3 top-3 rounded-full bg-lime-300 px-2 py-0.5 text-[11px] font-bold text-ink-900">
+                                -{Math.round(p.discount * 100)}%
+                              </span>
+                            )}
+                            <span className="block font-semibold">{p.label}</span>
+                            <span className="mt-0.5 block text-sm text-fg-muted">
+                              {p.note}
+                            </span>
+                            <span className="mt-3 block font-display text-lg font-bold">
+                              {aed(total)}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </StepShell>
               )}
 
@@ -299,14 +363,27 @@ export function BookingFlow({
               {step === 3 && (
                 <StepShell title="Review your booking">
                   <div className="space-y-3">
-                    <ReviewRow icon={<CalendarDays className="h-4 w-4" />} label="Date" value={date ?? "—"} />
+                    <ReviewRow icon={<CalendarDays className="h-4 w-4" />} label="Plan" value={`${activePlan.label} · ${activePlan.note}`} />
+                    <ReviewRow icon={<CalendarDays className="h-4 w-4" />} label={activePlan.sessions > 1 ? "First session" : "Date"} value={date ?? "—"} />
                     <ReviewRow icon={<Clock className="h-4 w-4" />} label="Time" value={time ?? "—"} />
                     <ReviewRow icon={<FormatIcon className="h-4 w-4" />} label="Format" value={formatMeta[format].label} />
                     <ReviewRow icon={<MapPin className="h-4 w-4" />} label="Location" value={locationLabel} />
                   </div>
 
                   <div className="mt-6 rounded-2xl border border-ink-900/8 p-5">
-                    <PriceLine label="Trainer fee (1 hour)" value={aed(fee)} />
+                    <PriceLine
+                      label={`Trainer fee (${activePlan.sessions} × 1 hour)`}
+                      value={aed(Math.round(trainer.hourlyRate * activePlan.sessions))}
+                    />
+                    {planSaving > 0 && (
+                      <PriceLine
+                        label={`${activePlan.label} discount (${Math.round(activePlan.discount * 100)}%)`}
+                        value={`−${aed(planSaving)}`}
+                        muted
+                        note="Saving for booking ahead"
+                      />
+                    )}
+                    <PriceLine label="Subtotal" value={aed(fee)} />
                     <PriceLine
                       label="Platform commission (12%)"
                       value={aed(commission)}
@@ -426,8 +503,9 @@ export function BookingFlow({
               </div>
             </div>
             <dl className="mt-5 space-y-2.5 text-sm">
+              <SummaryRow label="Plan" value={activePlan.label} />
               <SummaryRow label="Format" value={formatMeta[format].label} />
-              <SummaryRow label="Date" value={date ?? "Not set"} />
+              <SummaryRow label={activePlan.sessions > 1 ? "First session" : "Date"} value={date ?? "Not set"} />
               <SummaryRow label="Time" value={time ?? "Not set"} />
             </dl>
             <div className="mt-4 flex items-center justify-between border-t border-ink-900/8 pt-4">
@@ -535,6 +613,7 @@ function Confirmation({
   time,
   format,
   total,
+  planLabel,
 }: {
   trainer: Trainer;
   refId: string;
@@ -542,6 +621,7 @@ function Confirmation({
   time: string | null;
   format: TrainingFormat;
   total: number;
+  planLabel: string;
 }) {
   return (
     <motion.div
@@ -571,6 +651,7 @@ function Confirmation({
         </div>
         <dl className="mt-4 space-y-2.5 text-sm">
           <SummaryRow label="Trainer" value={trainer.name} />
+          <SummaryRow label="Plan" value={planLabel} />
           <SummaryRow label="Format" value={formatMeta[format].label} />
           <SummaryRow label="Date" value={date ?? "—"} />
           <SummaryRow label="Time" value={time ?? "—"} />
