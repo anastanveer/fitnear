@@ -3,15 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
-import { Home, Search, Play, Users, LayoutGrid } from "lucide-react";
+import { Home, Search, ShieldCheck, LayoutGrid } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const tabs = [
   { href: "/", label: "Home", icon: Home, match: (p: string) => p === "/" },
   { href: "/search", label: "Search", icon: Search, match: (p: string) => p.startsWith("/search") },
-  { href: "/reels", label: "Reels", icon: Play, match: (p: string) => p.startsWith("/reels") },
-  { href: "/community", label: "Community", icon: Users, match: (p: string) => p.startsWith("/community") },
-  { href: "/dashboard/client", label: "You", icon: LayoutGrid, match: (p: string) => p.startsWith("/dashboard") },
+  { href: "/trust", label: "Safety", icon: ShieldCheck, match: (p: string) => p.startsWith("/trust") },
+  { href: "/dashboard/client", label: "Account", icon: LayoutGrid, match: (p: string) => p.startsWith("/dashboard") },
 ];
 
 export function MobileTabBar() {

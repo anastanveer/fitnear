@@ -6,7 +6,6 @@ import { Footer } from "@/components/layout/Footer";
 import { FooterGate } from "@/components/layout/FooterGate";
 import { ToastProvider } from "@/components/ui/Toast";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { AiLauncher } from "@/components/ai/AiLauncher";
 import { MobileTabBar } from "@/components/layout/MobileTabBar";
 
 const inter = Inter({
@@ -109,7 +108,6 @@ export default function RootLayout({
           <FooterGate>
             <Footer />
           </FooterGate>
-          <AiLauncher />
           <MobileTabBar />
         </ToastProvider>
       </body>

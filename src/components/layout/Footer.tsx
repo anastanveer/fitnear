@@ -8,10 +8,9 @@ const columns = [
     title: "For clients",
     links: [
       { href: "/search", label: "Find a trainer" },
-      { href: "/ai-coach", label: "AI Coach" },
-      { href: "/reels", label: "Trainer Reels" },
-      { href: "/challenges", label: "City Challenges" },
-      { href: "/progress", label: "Progress tracker" },
+      { href: "/search?today=1", label: "Available today" },
+      { href: "/trust", label: "Trust & Safety" },
+      { href: "/dashboard/client", label: "Client dashboard" },
     ],
   },
   {
@@ -30,7 +29,7 @@ const columns = [
       { href: "/#how-it-works", label: "How it works" },
       { href: "/trust", label: "Trust & Safety" },
       { href: "/#business", label: "Business model" },
-      { href: "/community", label: "Community feed" },
+      { href: "/#reviews", label: "Reviews" },
     ],
   },
 ];

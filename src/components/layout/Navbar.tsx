@@ -13,10 +13,9 @@ type NavUser = { name: string; email: string; role: string } | null;
 
 const navLinks = [
   { href: "/search", label: "Find a trainer" },
-  { href: "/ai-coach", label: "AI Coach" },
-  { href: "/reels", label: "Reels" },
-  { href: "/community", label: "Community" },
   { href: "/join", label: "Become a trainer" },
+  { href: "/trust", label: "Trust & Safety" },
+  { href: "/#how-it-works", label: "How it works" },
 ];
 
 export function Navbar() {

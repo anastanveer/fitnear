@@ -4,7 +4,6 @@ import { TrainersNearYou } from "@/components/home/TrainersNearYou";
 import { UrgentSession } from "@/components/home/UrgentSession";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { GoalDiscovery } from "@/components/home/GoalDiscovery";
-import { ExploreFeatures } from "@/components/home/ExploreFeatures";
 import { SmartMatch } from "@/components/home/SmartMatch";
 import { WhyGrid } from "@/components/home/WhyGrid";
 import { Verified } from "@/components/home/Verified";
@@ -24,7 +23,6 @@ export default function Home() {
       <UrgentSession />
       <HowItWorks />
       <GoalDiscovery />
-      <ExploreFeatures />
       <SmartMatch />
       <WhyGrid />
       <Verified />
