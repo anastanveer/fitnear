@@ -26,8 +26,8 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     shortcuts: [
       { name: "Find a trainer", url: "/search" },
-      { name: "AI Coach", url: "/ai-coach" },
-      { name: "Reels", url: "/reels" },
+      { name: "Trust & Safety", url: "/trust" },
+      { name: "My account", url: "/dashboard/client" },
     ],
   };
 }

@@ -15,7 +15,6 @@ const tabs = [
 
 export function MobileTabBar() {
   const pathname = usePathname();
-  if (pathname.startsWith("/reels")) return null;
 
   return (
     <nav

@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 import { trainers } from "@/data/trainers";
-import { challenges } from "@/data/challenges";
 
 const BASE = "https://fitnear.example";
 
@@ -10,11 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/search",
     "/join",
     "/promote",
-    "/community",
-    "/ai-coach",
-    "/reels",
-    "/challenges",
-    "/progress",
+    "/trust",
     "/booking",
     "/dashboard/client",
     "/dashboard/trainer",
@@ -30,11 +25,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const challengeRoutes = challenges.map((c) => ({
-    url: `${BASE}/challenges/${c.slug}`,
-    changeFrequency: "weekly" as const,
-    priority: 0.5,
-  }));
-
-  return [...staticRoutes, ...trainerRoutes, ...challengeRoutes];
+  return [...staticRoutes, ...trainerRoutes];
 }

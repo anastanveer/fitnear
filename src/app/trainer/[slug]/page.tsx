@@ -11,12 +11,10 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import Image from "next/image";
-import { Heart, MessageCircle } from "lucide-react";
 import * as Icons from "lucide-react";
 import { trainerBySlug, trainers, similarTrainers } from "@/data/trainers";
 import { safetyGuarantees } from "@/lib/trust";
 import { TrustBadges, TrustMeter } from "@/components/trainer/TrustBadges";
-import { seedPosts } from "@/data/posts";
 import type { TrainingFormat } from "@/lib/types";
 import { Container, Eyebrow } from "@/components/ui/Container";
 import { TrainerCard } from "@/components/trainer/TrainerCard";
@@ -251,58 +249,6 @@ export default async function TrainerProfilePage({
                 reviews={trainer.reviews}
               />
             </Section>
-
-            {(() => {
-              const posts = seedPosts.filter((p) => p.trainerSlug === trainer.slug);
-              if (posts.length === 0) return null;
-              return (
-                <Section title={`Latest from ${trainer.name.split(" ")[0]}`}>
-                  <p className="mb-4 -mt-2 text-sm text-fg-muted">
-                    Recent updates shared to the{" "}
-                    <Link href="/community" className="font-semibold text-lime-600 hover:underline">
-                      community feed
-                    </Link>
-                    .
-                  </p>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {posts.map((post) => (
-                      <Link
-                        key={post.id}
-                        href="/community"
-                        className="group overflow-hidden rounded-2xl border border-ink-900/8 bg-white transition-shadow hover:shadow-[0_18px_40px_-24px_rgba(0,0,0,0.3)]"
-                      >
-                        {post.image && (
-                          <div className="relative aspect-[16/10] w-full">
-                            <Image
-                              src={post.image}
-                              alt=""
-                              fill
-                              sizes="(max-width:640px) 100vw, 320px"
-                              className="object-cover transition-transform duration-500 group-hover:scale-105"
-                            />
-                          </div>
-                        )}
-                        <div className="p-4">
-                          <p className="line-clamp-2 text-sm text-fg">{post.text}</p>
-                          <div className="mt-3 flex items-center gap-4 text-xs text-fg-muted">
-                            <span className="inline-flex items-center gap-1">
-                              <Heart className="h-3.5 w-3.5" /> {post.likes}
-                            </span>
-                            <span className="inline-flex items-center gap-1">
-                              <MessageCircle className="h-3.5 w-3.5" />{" "}
-                              {post.comments.length}
-                            </span>
-                            <span className="ml-auto">
-                              {post.timeLabel ?? "Recently"}
-                            </span>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </Section>
-              );
-            })()}
           </div>
 
           {/* Sticky sidebar */}
